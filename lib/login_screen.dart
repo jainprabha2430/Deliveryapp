@@ -1,6 +1,5 @@
 import 'package:delivery_app/Dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,13 +7,14 @@ class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
+
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
-  final Color primaryOrange = Colors.orange.shade600;
-  final String networkImageUrl = 'https://img.freepik.com/free-photo/cropped-image-woman-inputting-card-information-key-phone-laptop-while-shopping-online_1423-68.jpg';
+  final Color primaryBlue = const Color(0xFF1A4693);
+  final Color primaryGreen = const Color(0xFF5BA537);
 
   @override
   void dispose() {
@@ -22,86 +22,93 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
-      final username = _usernameController.text;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(60),
-                    bottomRight: Radius.circular(60),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.38,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [primaryBlue.withOpacity(0.08), Colors.white],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(80),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 50),
+                  Image.asset(
+                    'assets/app_logo.png',
+                    height: 130,
+                    fit: BoxFit.contain,
                   ),
-                  child: RotatedBox(
-                    quarterTurns: 2,
-                    child: Image.network(
-                      networkImageUrl,
-                      fit: BoxFit.cover,
-                      height: screenHeight * 0.35,
-                      width: double.infinity,
-                      color: Colors.black.withOpacity(0.4),
-                      colorBlendMode: BlendMode.darken,
+                  const SizedBox(height: 25),
+                  Text(
+                    'LOGISTICS PORTAL',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: primaryBlue,
+                      letterSpacing: 4.0,
                     ),
                   ),
-                ),
-                Positioned(
-                  top: screenHeight * 0.15,
-                  left: 30,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Welcome to',
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Text(
-                        'Swift Deliveries!',
-                        style: TextStyle(
-                          fontSize: 35,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 5),
+                  Container(
+                    height: 3,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: primaryGreen,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Text(
-                      'Log In to Continue',
-                      textAlign: TextAlign.left,
+                      'Welcome Back',
                       style: TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade800,
+                        fontSize: 27,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black87,
+                        letterSpacing: -0.5,
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Log in to continue',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
                     TextFormField(
                       controller: _usernameController,
                       keyboardType: TextInputType.number,
@@ -109,23 +116,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         counterText: "",
                         labelText: 'Mobile Number',
-                        prefixIcon: Icon(Icons.phone_android, color: primaryOrange),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        labelStyle: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w500),
+                        prefixIcon: Icon(Icons.phone_android_rounded, color: primaryGreen),
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade200),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: primaryOrange, width: 2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: primaryBlue, width: 2),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter mobile number';
-                        }
-                        if (value.length != 10) {
-                          return 'Mobile number must be exactly 10 digits';
-                        }
-                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                          return 'Only digits allowed';
-                        }
+                        if (value == null || value.isEmpty) return 'Please enter mobile number';
+                        if (value.length != 10) return 'Enter a valid 10-digit number';
                         return null;
                       },
                     ),
@@ -135,69 +141,100 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        prefixIcon:
-                        Icon(Icons.lock_outline, color: primaryOrange),
-                        suffixIcon: IconButton(icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: Colors.grey,
+                        labelStyle: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w500),
+                        prefixIcon: Icon(Icons.lock_outline_rounded, color: primaryGreen),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                            color: Colors.grey,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
+                          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                         ),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade200),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: primaryOrange, width: 2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: primaryBlue, width: 2),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter password';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
+                        if (value == null || value.isEmpty) return 'Please enter password';
                         return null;
                       },
                     ),
-                    // const SizedBox(height: 10),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: TextButton(
-                    //     onPressed: () {},
-                    //     child: Text('Forgot Password?', style: TextStyle(color: primaryOrange,
-                    //           fontWeight: FontWeight.w600),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _handleLogin();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryOrange,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: const Text('LOGIN', style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1.5,
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 25),
+                    Container(
+                      height: 58,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: _handleLogin,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryBlue,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+
+                        ),
+                        child: const Text(
+                          'LOG IN',
+                          style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 2.0,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                        "Don't have an account? ",
+                          style: TextStyle(color: Colors.grey.shade600, fontSize: 15),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                            // );
+                          },
+                          child: Text(
+                            "Create Account",
+                            style: TextStyle(
+                              color: primaryBlue,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.black
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 40),
           ],
         ),
       ),
