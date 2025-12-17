@@ -3,14 +3,15 @@ import 'login_screen.dart';
 
 class OnboardingPage {
   final String image;
-
   OnboardingPage({required this.image});
 }
+
 final List<OnboardingPage> onboardingPages = [
   OnboardingPage(image: 'assets/onboard1.png'),
   OnboardingPage(image: 'assets/onboard2.png'),
   OnboardingPage(image: 'assets/onboard3.png'),
 ];
+
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -49,50 +50,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
+      extendBodyBehindAppBar: true,
+      body: Stack(
         children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: TextButton(
-                onPressed: _goToLogin,
-                child: Text(
-                  "Skip",
-                  style: TextStyle(
-                    color: Colors.orange.shade700,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+          PageView.builder(
+            controller: _pageController,
+            itemCount: onboardingPages.length,
+            onPageChanged: (index) => setState(() => _currentPage = index),
+            itemBuilder: (context, index) {
+              return Image.asset(
+                onboardingPages[index].image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              );
+            },
+          ),
+          Positioned(
+            top: 35,
+            right: 15,
+            child: TextButton(
+              onPressed: _goToLogin,
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.grey.shade300,
+                shape: const StadiumBorder(),
+              ),
+              child: Text(
+                "Skip",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
           ),
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: onboardingPages.length,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return Image.asset(
-                  onboardingPages[index].image,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 25,
-              vertical: 25,
-            ),
+          Positioned(
+            bottom: 5,
+            left: 25,
+            right: 25,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -102,17 +98,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         (index) => buildDot(index),
                   ),
                 ),
-
                 ElevatedButton(
                   onPressed: _nextPage,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange.shade600,
+                    backgroundColor: Color(0xFF3949AB),
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 28,
-                      vertical: 14,
+                      vertical: 12,
                     ),
                   ),
                   child: Text(
@@ -122,7 +118,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -142,8 +137,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       width: _currentPage == index ? 26 : 8,
       decoration: BoxDecoration(
         color: _currentPage == index
-            ? Colors.orange.shade600
-            : Colors.grey.shade300,
+            ? Color(0xFF1A237E)
+            : Colors.green.withOpacity(0.5),
         borderRadius: BorderRadius.circular(6),
       ),
     );
