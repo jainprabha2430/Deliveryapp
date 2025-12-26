@@ -112,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   );
                 },
                 child: Image.asset(
-                  "assets/app_logo.png",
+                  "assets/delivery_logo.png",
                   height: 200,
                 ),
               ),
@@ -122,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 child: SlideTransition(
                   position: _textSlide,
                   child: Text(
-                    "SAMBHAV",
+                    "Delivery",
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.w900,

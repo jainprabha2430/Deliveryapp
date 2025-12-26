@@ -56,12 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 50),
-                  Image.asset(
-                    'assets/app_logo.png',
-                    height: 130,
-                    fit: BoxFit.contain,
-                  ),
-                  const SizedBox(height: 25),
                   Text(
                     'LOGISTICS PORTAL',
                     style: TextStyle(
@@ -241,3 +235,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
+
+
+
